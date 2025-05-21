@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
-CORS(app,origins=["https://free2formate-production-3842.up.railway.app"])  # Enable CORS for all routes
+CORS(app)  # Enable CORS for all routes
 
 # Configure upload settings
 UPLOAD_FOLDER = tempfile.mkdtemp()
