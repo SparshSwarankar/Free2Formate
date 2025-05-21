@@ -24,6 +24,82 @@ document.addEventListener('DOMContentLoaded', function () {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const storageKey = 'free2format-darkmode';
 
+    
+
+    // --- Welcome Message and Confetti Logic ---
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const closeButton = document.getElementById('closeWelcome');
+    const confettiContainer = document.querySelector('.confetti-container');
+
+    // Get colors from CSS variables
+    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+    const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color').trim();
+    const errorColor = getComputedStyle(document.documentElement).getPropertyValue('--error-color').trim();
+    const successColor = getComputedStyle(document.documentElement).getPropertyValue('--success-color').trim();
+    // Add more colors from your :root if you want them in confetti
+    const themeColors = [primaryColor, secondaryColor, errorColor, successColor];
+
+    // Function to check if it's a mobile device
+    function isMobileDevice() {
+        return /android|iphone|ipad|ipod|opera mini|iemobile|mobile/i.test(navigator.userAgent);
+    }
+
+    // Function to check if the user has seen the welcome message before
+    function hasSeenWelcomeMessage() {
+        // Use localStorage to store a flag.
+        // For testing, you can temporarily remove or comment out the localStorage check
+        return localStorage.getItem('seenWelcomeMessage') === 'true';
+
+        // *** FOR TESTING: Always return false to see the message on every load ***
+        // return false;
+    }
+
+    // Function to mark that the user has seen the welcome message
+    function setSeenWelcomeMessage() {
+        localStorage.setItem('seenWelcomeMessage', 'true');
+    }
+
+    // Function to trigger the confetti/paper pop effect
+    function triggerConfetti() {
+        const confettiCount = 100; // Number of confetti pieces
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            // Use theme colors for confetti
+            confetti.style.backgroundColor = themeColors[Math.floor(Math.random() * themeColors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            confetti.style.top = Math.random() * -20 + 'vh'; // Start above the viewport
+            confetti.style.animationDuration = Math.random() * 3 + 2 + 's'; // Random duration
+            confetti.style.animationDelay = Math.random() * 0.5 + 's'; // Random delay
+            confetti.style.transform = `rotate(${Math.random() * 360}deg)`; // Random initial rotation
+
+            confettiContainer.appendChild(confetti);
+
+            // Remove confetti after animation
+            confetti.addEventListener('animationend', () => {
+                confetti.remove();
+            });
+        }
+    }
+
+    // Check if it's a mobile device and the user hasn't seen the message
+    if (isMobileDevice() && !hasSeenWelcomeMessage()) {
+        // Display the welcome message with a slight delay for better visual flow
+        setTimeout(() => {
+            welcomeMessage.style.display = 'flex';
+            triggerConfetti();
+            // For testing, you might want to comment out the line below
+            setSeenWelcomeMessage(); // Mark as seen immediately when displayed
+        }, 1000); // Delay of 1 second
+    }
+
+    // Event listener for the close button
+    closeButton.addEventListener('click', function() {
+        welcomeMessage.style.display = 'none';
+        // Optional: Clear confetti on close if not using animationend
+        // confettiContainer.innerHTML = '';
+    });
     // Helper: set icon for both toggles
     function setIcon(isDark) {
         [darkModeIconDesktop, darkModeIconMobile].forEach(icon => {
