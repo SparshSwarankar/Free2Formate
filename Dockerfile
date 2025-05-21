@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ghostscript \
     unzip \
     curl \
+    lmodern \
     git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
