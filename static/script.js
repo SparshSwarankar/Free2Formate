@@ -72,7 +72,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentFile = null;
 
     // Change these URLs to absolute URLs for backend API
-    const API_BASE = "http://localhost:5000/api";
+    // const API_BASE = "http://localhost:5000/api";
+    const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:5000/api"
+        : "https://free2formate-production.up.railway.app";
 
     // Fetch supported formats from backend and initialize options
     fetch(`${API_BASE}/formats`)
@@ -282,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Real-time total conversions counter (polling every 10 seconds) ---
     const conversionCountElem = document.getElementById('conversionCount');
     function updateConversionCount() {
-        fetch('http://localhost:5000/api/total-conversions')
+        fetch(`${API_BASE}/total-conversions`)
             .then(res => res.json())
             .then(data => {
                 if (conversionCountElem && typeof data.total === 'number') {
