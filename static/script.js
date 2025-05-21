@@ -79,8 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
     // Fetch supported formats from backend and initialize options
     fetch(`${API_BASE}/formats`)
         .then(response => response.json())
