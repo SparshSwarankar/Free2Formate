@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Change these URLs to absolute URLs for backend API
     // const API_BASE = "http://localhost:5000/api";
-    const API_BASE = `${window.location.origin}/api`;
+    const API_BASE = window.location.hostname === 'localhost'
+        ? 'http://localhost:5000/api'
+        : 'https://free2formate-production.up.railway.app/';
+
 
     // Fetch supported formats from backend and initialize options
     fetch(`${API_BASE}/formats`)
@@ -389,13 +392,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // MP3 redirect modal logic
-    document.getElementById('closeMp3RedirectModal').onclick = function() {
+    document.getElementById('closeMp3RedirectModal').onclick = function () {
         mp3RedirectModal.classList.add('hidden');
     };
-    document.getElementById('mp3RedirectCancelBtn').onclick = function() {
+    document.getElementById('mp3RedirectCancelBtn').onclick = function () {
         mp3RedirectModal.classList.add('hidden');
     };
-    document.getElementById('mp3RedirectGoBtn').onclick = function() {
+    document.getElementById('mp3RedirectGoBtn').onclick = function () {
         window.open('https://your-mp3-converter-website.com/', '_blank');
     };
 
@@ -565,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 "name": "Free2Format",
                 "description": "Support Free2Format",
                 // "image": "https://yourdomain.com/logo.png",
-                "handler": function (response){
+                "handler": function (response) {
                     alert("Thank you for your donation!");
                 },
                 "theme": {
@@ -583,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const legalModalTitle = document.getElementById('legalModalTitle');
     const legalModalBody = document.getElementById('legalModalBody');
     document.querySelectorAll('.legal-link').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             let type = link.getAttribute('data-legal');
             if (type === 'privacy') {
