@@ -1,20 +1,26 @@
 FROM python:3.12-slim
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install required system packages for conversion + general tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
     pandoc \
     ffmpeg \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-latex-extra \
+    poppler-utils \
+    imagemagick \
+    ghostscript \
+    unzip \
+    curl \
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set workdir
 WORKDIR /app
 
-# Copy project files
 COPY . .
 
-# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Run server
-CMD ["python", "server.py"]
+EXPOSE 5000
+
+CMD ["gunicorn", "-c", "gunicorn.conf.py", "server:app"]
