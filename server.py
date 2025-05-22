@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for all routes
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdBOJO0IR453CU9tgl1Wo5kD4_p7Yg2GcxZOBb0tIKb7TGNyADhZYGWOhJdpxzz9QjJA/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGVkIou1tb4343yun6n1iPOj2he2qFIXp9wMIxdo-n71HpOYbnWFYLfnhlXwT9aAkvPA/exec"
 
 # Configure upload settings
 UPLOAD_FOLDER = tempfile.mkdtemp()
@@ -185,7 +185,7 @@ def save_contact_form():
 
         # Send data as form-encoded, since GAS uses e.parameter['field']
         response = requests.post(
-            "https://script.google.com/macros/s/AKfycbwdBOJO0IR453CU9tgl1Wo5kD4_p7Yg2GcxZOBb0tIKb7TGNyADhZYGWOhJdpxzz9QjJA/exec",
+            "https://script.google.com/macros/s/AKfycbyGVkIou1tb4343yun6n1iPOj2he2qFIXp9wMIxdo-n71HpOYbnWFYLfnhlXwT9aAkvPA/exec",
             data={
                 'Name': name,
                 'Email': email,
