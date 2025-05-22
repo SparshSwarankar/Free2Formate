@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const storageKey = 'free2format-darkmode';
 
-    
+
 
     // --- Welcome Message and Confetti Logic ---
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Event listener for the close button
-    closeButton.addEventListener('click', function() {
+    closeButton.addEventListener('click', function () {
         welcomeMessage.style.display = 'none';
         // Optional: Clear confetti on close if not using animationend
         // confettiContainer.innerHTML = '';

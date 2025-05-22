@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for all routes
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGVkIou1tb4343yun6n1iPOj2he2qFIXp9wMIxdo-n71HpOYbnWFYLfnhlXwT9aAkvPA/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2QkF8otwg91MfuZZPJUjlmiqJ6EP_KNbIrkX53F7SSwwJ_j-9bh9lufHivOTJtOy2zg/exec"
 
 # Configure upload settings
 UPLOAD_FOLDER = tempfile.mkdtemp()
@@ -175,10 +175,11 @@ def save_contact_form():
     Forward contact form submissions to Google Sheets via Google Apps Script.
     """
     try:
-        # Get data from form (instead of JSON)
-        name = request.form.get('Name', '').strip()
-        email = request.form.get('Email', '').strip()
-        message = request.form.get('Message', '').strip()
+        # Get JSON data from the frontend
+        data = request.get_json(force=True)
+        name = data.get('name', '').strip()
+        email = data.get('email', '').strip()
+        message = data.get('message', '').strip()
 
         if not name or not email or not message:
             return jsonify({'error': 'All fields are required.'}), 400

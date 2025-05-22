@@ -63,7 +63,9 @@
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.querySelector('.contact-form');
             const confirmMsg = document.getElementById('contact-confirm-message');
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGVkIou1tb4343yun6n1iPOj2he2qFIXp9wMIxdo-n71HpOYbnWFYLfnhlXwT9aAkvPA/exec";
+
+            // Your Railway server's API endpoint
+            const SERVER_API_URL = "https://free2formate-production-0000.up.railway.app/static/company/contact.html"; // ⬅️ Replace this with your actual Railway domain
 
             if (!form) return;
 
@@ -83,21 +85,19 @@
                     confirmMsg.style.color = success ? '#1a7f1a' : '#b30000';
                 }
 
-                const params = new URLSearchParams({
-                    Name: name,
-                    Email: email,
-                    Message: message
-                });
-
                 try {
-                    const res = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
-                    const data = await res.json();
+                    const res = await fetch(SERVER_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, message })
+                    });
 
-                    if (data.result === 'success') {
+                    const data = await res.json();
+                    if (res.ok && data.success) {
                         showConfirm("Thank you! Your message has been received. We'll reply soon.", true);
                         form.reset();
                     } else {
-                        showConfirm('There was an error submitting your message. Please try again later.', false);
+                        showConfirm(data.error || 'Error submitting message. Try again.', false);
                     }
                 } catch (err) {
                     showConfirm('Network error. Please try again later.', false);
@@ -105,6 +105,7 @@
             });
         });
     </script>
+
 
 
 </body>
