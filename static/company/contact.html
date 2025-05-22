@@ -69,6 +69,7 @@
 
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
+
                 const name = form.name.value.trim();
                 const email = form.email.value.trim();
                 const message = form.message.value.trim();
@@ -82,14 +83,17 @@
                     confirmMsg.style.color = success ? '#1a7f1a' : '#b30000';
                 }
 
-                try {
-                    const res = await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, email, message })
-                    });
+                const params = new URLSearchParams({
+                    Name: name,
+                    Email: email,
+                    Message: message
+                });
 
-                    if (res.ok) {
+                try {
+                    const res = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+                    const data = await res.json();
+
+                    if (data.result === 'success') {
                         showConfirm("Thank you! Your message has been received. We'll reply soon.", true);
                         form.reset();
                     } else {
@@ -101,6 +105,7 @@
             });
         });
     </script>
+
 
 </body>
 

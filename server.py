@@ -183,10 +183,14 @@ def save_contact_form():
         if not name or not email or not message:
             return jsonify({'error': 'All fields are required.'}), 400
 
-        # Forward data to Google Apps Script
+        # Send data as form-encoded, since GAS uses e.parameter['field']
         response = requests.post(
-            GOOGLE_SCRIPT_URL,
-            json={'name': name, 'email': email, 'message': message}
+            "https://script.google.com/macros/s/AKfycbwdBOJO0IR453CU9tgl1Wo5kD4_p7Yg2GcxZOBb0tIKb7TGNyADhZYGWOhJdpxzz9QjJA/exec",
+            data={
+                'Name': name,
+                'Email': email,
+                'Message': message
+            }
         )
 
         if response.status_code == 200:
@@ -197,6 +201,7 @@ def save_contact_form():
     except Exception as e:
         logger.error(f"Failed to forward contact form: {e}")
         return jsonify({'error': 'Server error while forwarding form data.'}), 500
+
     
 
 @app.errorhandler(404)
