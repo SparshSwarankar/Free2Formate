@@ -18,7 +18,6 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for all routes
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2QkF8otwg91MfuZZPJUjlmiqJ6EP_KNbIrkX53F7SSwwJ_j-9bh9lufHivOTJtOy2zg/exec"
 
 # Configure upload settings
 UPLOAD_FOLDER = tempfile.mkdtemp()
@@ -169,6 +168,9 @@ def check_status():
     }
     return jsonify(status)
 
+# Google Apps Script Web App URL - Replace with your actual deployed URL
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJ7rBFcaRiKj591OUoSBUd174xRkK6Oy7i_l_z3eLdBB17ZBmCaIOZRhtCLHOHgmjZ/exec"
+
 @app.route('/api/contact', methods=['POST'])
 def save_contact_form():
     """
@@ -185,29 +187,29 @@ def save_contact_form():
             return jsonify({'error': 'All fields are required.'}), 400
 
         # Send data as form-encoded to Google Apps Script
+        # The field names must match your spreadsheet headers
         response = requests.post(
-            GOOGLE_SCRIPT_URL, # Using the variable is good practice
+            GOOGLE_SCRIPT_URL,
             data={
                 'Name': name,
                 'Email': email,
                 'Message': message
+                # Add any other fields your spreadsheet has
+                # 'Date' will be handled by the script automatically
             }
         )
 
         if response.status_code == 200:
-            # It's a good idea to check the response from GAS to see if it indicates success
-            # The GAS script returns JSON: { result: 'success', row: nextRow } or { result: 'error', error: err.toString() }
             try:
                 gas_response_data = response.json()
                 if gas_response_data.get('result') == 'success':
                     return jsonify({'success': True}), 200
                 else:
                     logger.error(f"Google Apps Script returned an error: {gas_response_data.get('error', 'Unknown error')}")
-                    return jsonify({'error': 'Failed to send to Google Sheets (GAS error).'}), 500
+                    return jsonify({'error': 'Failed to send to Google Sheets.'}), 500
             except json.JSONDecodeError:
-                 logger.error("Failed to decode JSON response from Google Apps Script.")
-                 return jsonify({'error': 'Failed to send to Google Sheets (invalid response).'}), 500
-
+                logger.error("Failed to decode JSON response from Google Apps Script.")
+                return jsonify({'error': 'Failed to send to Google Sheets (invalid response).'}), 500
         else:
             logger.error(f"Request to Google Apps Script failed with status code: {response.status_code}")
             return jsonify({'error': 'Failed to send to Google Sheets.'}), 500
@@ -215,7 +217,14 @@ def save_contact_form():
     except Exception as e:
         logger.error(f"Failed to forward contact form: {e}")
         return jsonify({'error': 'Server error while forwarding form data.'}), 500
+    
 
+# Add this route to serve the contact form HTML if needed
+@app.route('/static/company/contact.html', methods=['GET'])
+def contact_page():
+    # Return your contact page HTML
+    # This is just a placeholder - you should serve your actual HTML file
+    return app.send_static_file('company/contact.html')
     
 
 @app.errorhandler(404)
