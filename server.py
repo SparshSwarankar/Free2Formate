@@ -10,6 +10,7 @@ from convert import FileConverter
 from flask_cors import CORS
 import threading
 import csv
+import requests
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -17,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for all routes
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdBOJO0IR453CU9tgl1Wo5kD4_p7Yg2GcxZOBb0tIKb7TGNyADhZYGWOhJdpxzz9QjJA/exec"
 
 # Configure upload settings
 UPLOAD_FOLDER = tempfile.mkdtemp()
@@ -170,27 +172,32 @@ def check_status():
 @app.route('/api/contact', methods=['POST'])
 def save_contact_form():
     """
-    Save contact form submissions to a CSV file.
+    Forward contact form submissions to Google Sheets via Google Apps Script.
     """
     try:
         data = request.get_json(force=True)
         name = data.get('name', '').strip()
         email = data.get('email', '').strip()
         message = data.get('message', '').strip()
+
         if not name or not email or not message:
             return jsonify({'error': 'All fields are required.'}), 400
 
-        file_exists = os.path.isfile(CONTACT_CSV)
-        with open(CONTACT_CSV, 'a', newline='', encoding='utf-8') as csvfile:
-            writer = csv.writer(csvfile)
-            if not file_exists:
-                writer.writerow(['Timestamp', 'Name', 'Email', 'Message'])
-            writer.writerow([time.strftime('%Y-%m-%d %H:%M:%S'), name, email, message])
+        # Forward data to Google Apps Script
+        response = requests.post(
+            GOOGLE_SCRIPT_URL,
+            json={'name': name, 'email': email, 'message': message}
+        )
 
-        return jsonify({'success': True}), 200
+        if response.status_code == 200:
+            return jsonify({'success': True}), 200
+        else:
+            return jsonify({'error': 'Failed to send to Google Sheets.'}), 500
+
     except Exception as e:
-        logger.error(f"Failed to save contact form: {e}")
-        return jsonify({'error': 'Failed to save contact form.'}), 500
+        logger.error(f"Failed to forward contact form: {e}")
+        return jsonify({'error': 'Server error while forwarding form data.'}), 500
+    
 
 @app.errorhandler(404)
 def not_found(e):
