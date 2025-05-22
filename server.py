@@ -175,17 +175,17 @@ def save_contact_form():
     Forward contact form submissions to Google Sheets via Google Apps Script.
     """
     try:
-        data = request.get_json(force=True)
-        name = data.get('name', '').strip()
-        email = data.get('email', '').strip()
-        message = data.get('message', '').strip()
+        # Get data from form (instead of JSON)
+        name = request.form.get('Name', '').strip()
+        email = request.form.get('Email', '').strip()
+        message = request.form.get('Message', '').strip()
 
         if not name or not email or not message:
             return jsonify({'error': 'All fields are required.'}), 400
 
-        # Send data as form-encoded, since GAS uses e.parameter['field']
+        # Send data as form-encoded to Google Apps Script
         response = requests.post(
-            "https://script.google.com/macros/s/AKfycbyGVkIou1tb4343yun6n1iPOj2he2qFIXp9wMIxdo-n71HpOYbnWFYLfnhlXwT9aAkvPA/exec",
+            GOOGLE_SCRIPT_URL, # Using the variable is good practice
             data={
                 'Name': name,
                 'Email': email,
@@ -194,8 +194,21 @@ def save_contact_form():
         )
 
         if response.status_code == 200:
-            return jsonify({'success': True}), 200
+            # It's a good idea to check the response from GAS to see if it indicates success
+            # The GAS script returns JSON: { result: 'success', row: nextRow } or { result: 'error', error: err.toString() }
+            try:
+                gas_response_data = response.json()
+                if gas_response_data.get('result') == 'success':
+                    return jsonify({'success': True}), 200
+                else:
+                    logger.error(f"Google Apps Script returned an error: {gas_response_data.get('error', 'Unknown error')}")
+                    return jsonify({'error': 'Failed to send to Google Sheets (GAS error).'}), 500
+            except json.JSONDecodeError:
+                 logger.error("Failed to decode JSON response from Google Apps Script.")
+                 return jsonify({'error': 'Failed to send to Google Sheets (invalid response).'}), 500
+
         else:
+            logger.error(f"Request to Google Apps Script failed with status code: {response.status_code}")
             return jsonify({'error': 'Failed to send to Google Sheets.'}), 500
 
     except Exception as e:
