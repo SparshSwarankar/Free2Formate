@@ -639,14 +639,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (razorpayDonateBtn) {
         razorpayDonateBtn.addEventListener('click', function () {
             var options = {
-                "key": "YOUR_RAZORPAY_KEY_ID", // Replace with your Razorpay key
+                "key": "rzp_test_Iz2FpyxkOiw1bs", // Replace with your Razorpay key
                 "amount": 10000, // Amount in paise (10000 = ₹100)
                 "currency": "INR",
                 "name": "Free2Format",
                 "description": "Support Free2Format",
                 // "image": "https://yourdomain.com/logo.png",
                 "handler": function (response) {
-                    alert("Thank you for your donation!");
+                    window.location.href = "https://free2formate-production-0000.up.railway.app/static/thankyou.html";
                 },
                 "theme": {
                     "color": "#9B59FF"

@@ -139,6 +139,7 @@
 <body>
     <div class="container">
         <h1>🎉 Thank You!</h1>
+        <p id="paymentMessage"></p>
         <p>Your donation helps us keep Free2Format free and ad-free. We truly appreciate your support!</p>
 
         <div class="other-tools-section">
@@ -184,6 +185,11 @@
                 }));
             }, 250);
         });
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('payment_id');
+        if (paymentId) {
+            document.getElementById('paymentMessage').innerText = `Thank you! Your payment ID is ${paymentId}.`;
+        }
     </script>
 </body>
 
