@@ -617,6 +617,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     // Show like/donation modal after download starts
+    /*
     const likeDonationModal = document.getElementById('likeDonationModal');
     const closeLikeDonationModal = document.getElementById('closeLikeDonationModal');
     const razorpayDonateBtn = document.getElementById('razorpayDonateBtn');
@@ -655,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var rzp1 = new Razorpay(options);
             rzp1.open();
         });
-    }
+    }*/
 
     // Legal modal logic
     const legalModal = document.getElementById('legalModal');
