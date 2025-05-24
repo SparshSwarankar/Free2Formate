@@ -632,29 +632,6 @@ main {
     color: #b91c1c;
 }
 
-/* Razorpay donate button (reuse donate-btn style) */
-.donate-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #9B59FF;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 22px;
-    font-size: 1.08rem;
-    font-weight: 600;
-    text-decoration: none;
-    margin-bottom: 10px;
-    transition: background 0.18s, color 0.18s;
-    cursor: pointer;
-}
-
-.donate-btn:hover {
-    background: #8A48FF;
-    color: #fff;
-}
-
 /* Features Section */
 .features {
     padding: 80px 0;

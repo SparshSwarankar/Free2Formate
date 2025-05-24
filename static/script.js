@@ -617,13 +617,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     // Show like/donation modal after download starts
-    /*
     const likeDonationModal = document.getElementById('likeDonationModal');
     const closeLikeDonationModal = document.getElementById('closeLikeDonationModal');
-    const razorpayDonateBtn = document.getElementById('razorpayDonateBtn');
 
     if (downloadLink && likeDonationModal) {
-        downloadLink.addEventListener('click', function (e) {
+        downloadLink.addEventListener('click', function () {
             // Let the download start, then show modal after a short delay
             setTimeout(() => {
                 likeDonationModal.classList.remove('hidden');
@@ -637,26 +635,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (razorpayDonateBtn) {
-        razorpayDonateBtn.addEventListener('click', function () {
-            var options = {
-                "key": "rzp_test_Iz2FpyxkOiw1bs", // Replace with your Razorpay key
-                "amount": 10000, // Amount in paise (10000 = ₹100)
-                "currency": "INR",
-                "name": "Free2Format",
-                "description": "Support Free2Format",
-                // "image": "https://yourdomain.com/logo.png",
-                "handler": function (response) {
-                    window.location.href = "https://free2formate-production-0000.up.railway.app/static/thankyou.html";
-                },
-                "theme": {
-                    "color": "#9B59FF"
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        });
-    }*/
 
     // Legal modal logic
     const legalModal = document.getElementById('legalModal');

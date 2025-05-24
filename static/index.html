@@ -261,7 +261,6 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <!-- Like & Donation Modal -->
-<!--     
     <div id="likeDonationModal" class="modal hidden" role="dialog" aria-modal="true"
         aria-labelledby="likeDonationTitle">
         <div class="modal-content">
@@ -271,14 +270,17 @@
                 If you liked our website, please consider supporting us!<br>
                 Your donation helps keep this service free and ad-free.<br>
                 <strong>Thank you for your support!</strong>
-            </p> -->
-            <!-- Razorpay Button -->
-            <!-- <button id="razorpayDonateBtn" class="donate-btn" style="margin-top:18px;">
-                <img src="https://cdn.razorpay.com/static/assets/razorpay-glyph.svg" alt=""
-                    style="height:1.2em;vertical-align:middle;margin-right:8px;"> Donate with Razorpay
-            </button>
+            </p>
+
+            <!-- Razorpay Payment Button Embed -->
+            <form>
+                <script src="https://checkout.razorpay.com/v1/payment-button.js"
+                    data-payment_button_id="pl_QY4sYVtObkVfYB" async>
+                    </script>
+            </form>
         </div>
-    </div> -->
+    </div>
+
 
     <!-- Legal Modal Popup -->
     <div id="legalModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
@@ -301,7 +303,34 @@
     </div>
 
     <!-- Razorpay Checkout script -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const btn = document.querySelector('a.PaymentButton');
+            if (btn) {
+                btn.style.backgroundColor = '#9B59FF';
+                btn.style.borderRadius = '8px';
+                btn.style.padding = '12px 24px';
+                btn.style.fontSize = '1.1rem';
+                btn.style.fontWeight = 'bold';
+                btn.style.color = 'white';
+                btn.style.textDecoration = 'none';
+                btn.style.display = 'inline-flex';
+                btn.style.alignItems = 'center';
+                btn.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+                btn.style.transition = 'background-color 0.3s ease';
+                btn.style.marginTop = '16px';
+
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.backgroundColor = '#9B59FF';
+                    btn.style.cursor = 'pointer';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.backgroundColor = '#8A48FF';
+                });
+            }
+        });
+
+    </script>
     <script src="/static/script.js" defer></script>
 </body>
 
