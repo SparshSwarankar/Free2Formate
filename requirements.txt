@@ -54,8 +54,6 @@ python-docx==1.1.2
 python-dotenv==1.1.0
 pytube==15.0.0
 pytz==2025.1
-pywin32==310
-pywin32-ctypes==0.2.3
 reportlab==4.4.0
 requests==2.31.0
 setuptools==80.3.1
