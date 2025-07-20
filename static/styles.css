@@ -1805,50 +1805,66 @@ body.dark-mode .dark-mode-toggle i {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay */
-    display: none; /* Hidden by default */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Semi-transparent overlay */
+    display: none;
+    /* Hidden by default */
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Make sure it's on top of other content */
-    animation: fadeIn 0.5s ease-out forwards; /* Optional fade-in animation */
+    z-index: 1000;
+    /* Make sure it's on top of other content */
+    animation: fadeIn 0.5s ease-out forwards;
+    /* Optional fade-in animation */
 }
 
 .message-content {
-    background-color: var(--background-color); /* Use background variable */
+    background-color: var(--background-color);
+    /* Use background variable */
     padding: 30px;
-    border-radius: var(--radius); /* Use radius variable */
+    border-radius: var(--radius);
+    /* Use radius variable */
     text-align: center;
     position: relative;
-    z-index: 1001; /* Above the confetti */
-    box-shadow: 0 4px 15px var(--shadow-color); /* Use shadow variable */
+    z-index: 1001;
+    /* Above the confetti */
+    box-shadow: 0 4px 15px var(--shadow-color);
+    /* Use shadow variable */
     max-width: 90%;
-    transform: scale(0.8); /* Start slightly smaller */
-    animation: scaleIn 0.5s ease-out forwards; /* Optional scale-in animation */
+    transform: scale(0.8);
+    /* Start slightly smaller */
+    animation: scaleIn 0.5s ease-out forwards;
+    /* Optional scale-in animation */
 }
 
 .welcome-message h2 {
-    color: var(--text-color); /* Use text color variable */
+    color: var(--text-color);
+    /* Use text color variable */
     margin-bottom: 10px;
 }
 
 .welcome-message p {
-    color: var(--text-light); /* Use light text color variable */
+    color: var(--text-light);
+    /* Use light text color variable */
     margin-bottom: 20px;
 }
 
 .welcome-message button {
-    background-color: var(--primary-color); /* Use primary color variable */
+    background-color: var(--primary-color);
+    /* Use primary color variable */
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: var(--radius); /* Use radius variable */
+    border-radius: var(--radius);
+    /* Use radius variable */
     cursor: pointer;
     font-size: 1rem;
-    transition: var(--transition); /* Use transition variable */
+    transition: var(--transition);
+    /* Use transition variable */
 }
 
 .welcome-message button:hover {
-    background-color: var(--primary-hover); /* Use primary hover variable */
+    background-color: var(--primary-hover);
+    /* Use primary hover variable */
 }
 
 .confetti-container {
@@ -1857,8 +1873,10 @@ body.dark-mode .dark-mode-toggle i {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Allow clicking through confetti */
-    overflow: hidden; /* Hide confetti outside the container */
+    pointer-events: none;
+    /* Allow clicking through confetti */
+    overflow: hidden;
+    /* Hide confetti outside the container */
 }
 
 /* Basic Confetti Styling (Needs more work for a complex effect) */
@@ -1877,6 +1895,7 @@ body.dark-mode .dark-mode-toggle i {
         transform: translateY(-10px) rotate(0deg);
         opacity: 1;
     }
+
     100% {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0.5;
@@ -1885,35 +1904,543 @@ body.dark-mode .dark-mode-toggle i {
 
 /* Optional animations for the welcome message */
 @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes scaleIn {
-    0% { transform: scale(0.8); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(0.8);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* --- DARK MODE Styles for Welcome Message --- */
 body.dark-mode .message-content {
-    background-color: #232136; /* Dark mode background from your existing styles */
-    color: #f3f4fa; /* Dark mode text color from your existing styles */
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* Adjust shadow for dark mode */
+    background-color: #232136;
+    /* Dark mode background from your existing styles */
+    color: #f3f4fa;
+    /* Dark mode text color from your existing styles */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    /* Adjust shadow for dark mode */
 }
 
 body.dark-mode .welcome-message h2 {
-    color: #f3f4fa; /* Dark mode text color */
+    color: #f3f4fa;
+    /* Dark mode text color */
 }
 
 body.dark-mode .welcome-message p {
-    color: #ccc; /* Slightly lighter text for paragraphs in dark mode */
+    color: #ccc;
+    /* Slightly lighter text for paragraphs in dark mode */
 }
 
 body.dark-mode .welcome-message button {
-    background-color: #b983ff; /* Dark mode primary color from your existing styles */
-    color: #232136; /* Dark mode background for button text */
+    background-color: #b983ff;
+    /* Dark mode primary color from your existing styles */
+    color: #232136;
+    /* Dark mode background for button text */
 }
 
 body.dark-mode .welcome-message button:hover {
-    background-color: #a870ff; /* Dark mode hover color (slightly darker purple) */
+    background-color: #a870ff;
+    /* Dark mode hover color (slightly darker purple) */
+}
+
+/* AI Assistant Styles - Scoped and non-conflicting */
+#aiAssistantChatBtn {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    background: var(--primary-color, #9B59FF);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.13);
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+#aiAssistantChatBtn:hover {
+    background: var(--secondary-color, #7c3aed);
+}
+
+#aiAssistantBox {
+    position: fixed;
+    right: 24px;
+    bottom: 90px;
+    width: 340px;
+    max-width: 95vw;
+    max-height: 70vh;
+    background: #fff;
+    color: #232136;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    font-family: inherit;
+    overflow: hidden;
+}
+
+#aiAssistantBox.open {
+    display: flex;
+    animation: fadeInAssistant 0.18s;
+}
+
+@keyframes fadeInAssistant {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#aiAssistantHeader {
+    background: var(--primary-color, #9B59FF);
+    color: #fff;
+    padding: 16px 20px 12px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#aiAssistantHeader .close {
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #fff;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#aiAssistantHeader .close:hover {
+    opacity: 1;
+}
+
+#aiAssistantChatLog {
+    flex: 1 1 auto;
+    padding: 18px 16px 10px 16px;
+    overflow-y: auto;
+    background: #fff;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+}
+
+.ai-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.ai-msg .bubble {
+    background: #f5f4fa;
+    color: #232136;
+    border-radius: 12px 12px 12px 4px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    max-width: 85%;
+    box-shadow: 0 1px 4px rgba(155, 89, 255, 0.04);
+}
+
+.user-msg {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2px;
+}
+
+.user-msg .bubble {
+    background: var(--primary-color, #9B59FF);
+    color: #fff;
+    border-radius: 12px 12px 4px 12px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    max-width: 85%;
+    box-shadow: 0 1px 4px rgba(155, 89, 255, 0.08);
+}
+
+#aiAssistantQuestions {
+    padding: 0 16px 14px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ai-question-btn {
+    background: #f5f4fa;
+    color: #232136;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.97rem;
+    cursor: pointer;
+    transition: background 0.18s;
+    font-family: inherit;
+    margin-bottom: 2px;
+}
+
+.ai-question-btn:hover {
+    background: var(--secondary-color, #ede9fe);
+    color: var(--primary-color, #9B59FF);
+}
+
+.ai-section-title {
+    width: 100%;
+    margin: 10px 0 2px 0;
+    font-weight: 700;
+    font-size: 1.07rem;
+    color: var(--primary-color, #9B59FF);
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+    #aiAssistantBox {
+        right: 8px;
+        bottom: 72px;
+        width: 98vw;
+        max-width: 98vw;
+        max-height: 75vh;
+        border-radius: 14px;
+    }
+
+    #aiAssistantChatBtn {
+        right: 8px;
+        bottom: 8px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.6rem;
+    }
+}
+
+/* Memory Match Game Styles */
+.game-section {
+    padding: 60px 0;
+    margin-top: 50px;
+    background-color: var(--background-color);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.game-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 30px;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    background: var(--background-color);
+    padding: 15px 25px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    text-align: center;
+    min-width: 120px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Game Board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.memory-card {
+    aspect-ratio: 1;
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.memory-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.card-back {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+}
+
+.card-front {
+    background: var(--background-color);
+    transform: rotateY(180deg);
+    border: 2px solid var(--border-color);
+}
+
+.card-back::before {
+    content: '?';
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.file-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.memory-card:hover .card-face {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+.memory-card.matched .card-face {
+    background: var(--success-color);
+    color: white;
+}
+
+.memory-card.matched .card-front {
+    background: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.memory-card.matched .file-icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Game Controls */
+.game-controls {
+    text-align: center;
+}
+
+.game-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(155, 89, 255, 0.3);
+}
+
+.game-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 89, 255, 0.4);
+}
+
+.game-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Win Modal */
+.win-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.win-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.win-content {
+    background: var(--background-color);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.win-modal.show .win-content {
+    transform: scale(1);
+}
+
+.win-title {
+    font-size: 2rem;
+    color: var(--success-color);
+    margin-bottom: 15px;
+}
+
+.win-stats {
+    margin: 20px 0;
+    color: var(--text-light);
+}
+
+.win-stat {
+    margin: 5px 0;
+}
+
+/* Dark Mode Styles for Win Modal and Game */
+/* Dark Mode Styles - Scoped to game elements only */
+body.dark-mode .game-section {
+    background: #1a1625;
+    color: #e0e0e0;
+}
+
+body.dark-mode .game-title,
+body.dark-mode .win-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .game-subtitle {
+    color: #a0a0a0;
+}
+
+body.dark-mode .stat-item {
+    background: #2d2a40;
+    color: #e0e0e0;
+}
+
+body.dark-mode .stat-value {
+    color: #9B59FF;
+}
+
+body.dark-mode .card-face {
+    background: #2d2a40;
+    border-color: #404040;
+}
+
+body.dark-mode .card-back {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+body.dark-mode .win-content {
+    background: #2d2a40;
+    color: #e0e0e0;
+}
+
+body.dark-mode .win-modal {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Keep conversion status bar styles scoped */
+body.dark-mode .conversion-status-bar {
+    background: #7c3aed;
+}
+
+/* Responsive Design for Game */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 2rem;
+    }
+
+    .game-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .game-board {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        max-width: 350px;
+    }
+
+    .file-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .card-back::before {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 250px;
+    }
+
+    .game-section {
+        padding: 40px 0;
+    }
 }

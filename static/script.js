@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        
+
 
     // Fetch supported formats from backend and initialize options
     fetch(`${API_BASE}/formats`)
@@ -673,7 +673,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (type === 'cookie') {
                 legalModalTitle.textContent = 'Cookie Policy';
                 legalModalBody.innerHTML = `
-                    <h4>1. What Are Cookies?</h4>Z
+                    <h4>1. What Are Cookies?</h4>
                     <p>Cookies are small text files stored on your device to help the site function properly.</p>
                     <h4>2. How We Use Cookies</h4>
                     <p>We use only essential cookies for site functionality, such as remembering your dark mode preference. We do not use tracking or advertising cookies.</p>
@@ -689,4 +689,265 @@ document.addEventListener('DOMContentLoaded', function () {
             legalModal.classList.add('hidden');
         });
     }
+    new MemoryMatchGame();
 });
+// Memory Match Game Class
+class MemoryMatchGame {
+    constructor() {
+        // File types with their icon paths
+        this.fileTypes = [
+            { name: 'PDF', icon: '/static/images/pdf-icon.png' },
+            { name: 'MP3', icon: '/static/images/mp3-icon.png' },
+            { name: 'MP4', icon: '/static/images/mp4-icon.png' },
+            { name: 'JPG', icon: '/static/images/jpg-icon.png' },
+            { name: 'ZIP', icon: '/static/images/zip-icon.png' },
+            { name: 'DOCX', icon: '/static/images/docx-icon.png' }
+        ];
+
+        // Game state
+        this.cards = [];
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.startTime = null;
+        this.gameTimer = null;
+        this.isGameActive = false;
+
+        // DOM elements
+        this.gameBoard = document.getElementById('gameBoard');
+        this.moveCount = document.getElementById('moveCount');
+        this.timeCount = document.getElementById('timeCount');
+        this.pairCount = document.getElementById('pairCount');
+        this.resetBtn = document.getElementById('resetBtn');
+        this.winModal = document.getElementById('winModal');
+        this.finalMoves = document.getElementById('finalMoves');
+        this.finalTime = document.getElementById('finalTime');
+        this.playAgainBtn = document.getElementById('playAgainBtn');
+
+        if (this.gameBoard) {
+            this.initializeGame();
+            this.bindEvents();
+            this.setupProgressBarVisibility();
+        }
+    }
+
+    initializeGame() {
+        this.createCards();
+        this.shuffleCards();
+        this.renderCards();
+        this.resetStats();
+    }
+
+    createCards() {
+        this.cards = [];
+        this.fileTypes.forEach((fileType, index) => {
+            for (let i = 0; i < 2; i++) {
+                this.cards.push({
+                    id: `${index}-${i}`,
+                    type: fileType.name,
+                    icon: fileType.icon,
+                    isFlipped: false,
+                    isMatched: false
+                });
+            }
+        });
+    }
+
+    shuffleCards() {
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+        }
+    }
+
+    renderCards() {
+        this.gameBoard.innerHTML = '';
+        this.cards.forEach((card, index) => {
+            const cardElement = this.createCardElement(card, index);
+            this.gameBoard.appendChild(cardElement);
+        });
+    }
+
+    createCardElement(card, index) {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'memory-card';
+        cardDiv.dataset.index = index;
+
+        cardDiv.innerHTML = `
+            <div class="card-inner">
+                <div class="card-back"></div>
+                <div class="card-front">
+                    <img src="${card.icon}" alt="${card.type}" class="file-icon" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display:none; font-weight:bold; color:var(--primary-color);">${card.type}</span>
+                </div>
+            </div>
+        `;
+
+        cardDiv.addEventListener('click', () => this.flipCard(index));
+        return cardDiv;
+    }
+
+    flipCard(index) {
+        if (!this.isGameActive) {
+            this.startGame();
+        }
+
+        const card = this.cards[index];
+        const cardElement = this.gameBoard.children[index];
+
+        if (card.isFlipped || card.isMatched || this.flippedCards.length >= 2) {
+            return;
+        }
+
+        card.isFlipped = true;
+        cardElement.classList.add('flipped');
+        this.flippedCards.push(index);
+
+        if (this.flippedCards.length === 2) {
+            this.moves++;
+            this.updateMoveCount();
+            setTimeout(() => this.checkMatch(), 1000);
+        }
+    }
+
+    checkMatch() {
+        const [firstIndex, secondIndex] = this.flippedCards;
+        const firstCard = this.cards[firstIndex];
+        const secondCard = this.cards[secondIndex];
+
+        if (firstCard.type === secondCard.type) {
+            firstCard.isMatched = true;
+            secondCard.isMatched = true;
+
+            const firstElement = this.gameBoard.children[firstIndex];
+            const secondElement = this.gameBoard.children[secondIndex];
+
+            firstElement.classList.add('matched');
+            secondElement.classList.add('matched');
+
+            this.matchedPairs++;
+            this.updatePairCount();
+
+            if (this.matchedPairs === this.fileTypes.length) {
+                this.endGame();
+            }
+        } else {
+            firstCard.isFlipped = false;
+            secondCard.isFlipped = false;
+
+            const firstElement = this.gameBoard.children[firstIndex];
+            const secondElement = this.gameBoard.children[secondIndex];
+
+            firstElement.classList.remove('flipped');
+            secondElement.classList.remove('flipped');
+        }
+
+        this.flippedCards = [];
+    }
+
+    startGame() {
+        this.isGameActive = true;
+        this.startTime = Date.now();
+        this.gameTimer = setInterval(() => this.updateTimer(), 1000);
+    }
+
+    endGame() {
+        this.isGameActive = false;
+        clearInterval(this.gameTimer);
+
+        const finalTime = this.formatTime(Math.floor((Date.now() - this.startTime) / 1000));
+        this.finalMoves.textContent = this.moves;
+        this.finalTime.textContent = finalTime;
+
+        setTimeout(() => {
+            this.winModal.classList.add('show');
+        }, 500);
+    }
+
+    resetGame() {
+        this.isGameActive = false;
+        clearInterval(this.gameTimer);
+        this.flippedCards = [];
+        this.matchedPairs = 0;
+        this.moves = 0;
+        this.startTime = null;
+
+        this.winModal.classList.remove('show');
+        this.initializeGame();
+    }
+
+    resetStats() {
+        this.updateMoveCount();
+        this.updatePairCount();
+        this.timeCount.textContent = '00:00';
+    }
+
+    updateMoveCount() {
+        this.moveCount.textContent = this.moves;
+    }
+
+    updatePairCount() {
+        this.pairCount.textContent = `${this.matchedPairs}/${this.fileTypes.length}`;
+    }
+
+    updateTimer() {
+        if (!this.startTime) return;
+        const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+        this.timeCount.textContent = this.formatTime(elapsed);
+    }
+
+    formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    bindEvents() {
+        this.resetBtn.addEventListener('click', () => this.resetGame());
+        this.playAgainBtn.addEventListener('click', () => this.resetGame());
+
+        this.winModal.addEventListener('click', (e) => {
+            if (e.target === this.winModal) {
+                this.winModal.classList.remove('show');
+            }
+        });
+    }
+
+    setupProgressBarVisibility() {
+        const gameSection = document.getElementById('gameSection');
+        const progressContainer = document.getElementById('progressContainer');
+
+        if (gameSection && progressContainer) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Show progress bar when game section is visible
+                        progressContainer.style.position = 'fixed';
+                        progressContainer.style.top = '20px';
+                        progressContainer.style.right = '20px';
+                        progressContainer.style.zIndex = '1000';
+                        progressContainer.style.background = 'var(--background-color)';
+                        progressContainer.style.padding = '15px';
+                        progressContainer.style.borderRadius = 'var(--radius)';
+                        progressContainer.style.boxShadow = '0 4px 15px var(--shadow-color)';
+                        progressContainer.style.minWidth = '250px';
+                    } else {
+                        // Reset progress bar position when leaving game section
+                        progressContainer.style.position = '';
+                        progressContainer.style.top = '';
+                        progressContainer.style.right = '';
+                        progressContainer.style.zIndex = '';
+                        progressContainer.style.background = '';
+                        progressContainer.style.padding = '';
+                        progressContainer.style.borderRadius = '';
+                        progressContainer.style.boxShadow = '';
+                        progressContainer.style.minWidth = '';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(gameSection);
+        }
+    }
+}
