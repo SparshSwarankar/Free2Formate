@@ -996,7 +996,8 @@ body.dark-mode .logo:hover {
 body.dark-mode .container,
 body.dark-mode .upload-box,
 body.dark-mode .feature-card,
-body.dark-mode .supported-formats {
+body.dark-mode .supported-formats,
+body.dark-mode .game-section {
     background-color: #232136;
     color: #f3f4fa;
     box-shadow: 0 4px 24px rgba(80, 0, 120, 0.10);
@@ -1018,11 +1019,6 @@ body.dark-mode .upload-box.dragover {
 
 body.dark-mode .feature-card {
     background-color: #282447;
-    color: #f3f4fa;
-}
-
-body.dark-mode .supported-formats {
-    background-color: #232136;
     color: #f3f4fa;
 }
 
@@ -2360,10 +2356,6 @@ body.dark-mode .welcome-message button:hover {
 
 /* Dark Mode Styles for Win Modal and Game */
 /* Dark Mode Styles - Scoped to game elements only */
-body.dark-mode .game-section {
-    background: #1a1625;
-    color: #e0e0e0;
-}
 
 body.dark-mode .game-title,
 body.dark-mode .win-title {

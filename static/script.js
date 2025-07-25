@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mp3RedirectModal.classList.add('hidden');
     };
     document.getElementById('mp3RedirectGoBtn').onclick = function () {
-        window.open('https://your-mp3-converter-website.com/', '_blank');
+        window.open('https://sound-shift.onrender.com/', '_blank');
     };
 
     // File conversion function
