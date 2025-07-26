@@ -696,12 +696,12 @@ class MemoryMatchGame {
     constructor() {
         // File types with their icon paths
         this.fileTypes = [
-            { name: 'PDF', icon: '/static/images/pdf-icon.png' },
-            { name: 'MP3', icon: '/static/images/mp3-icon.png' },
-            { name: 'MP4', icon: '/static/images/mp4-icon.png' },
-            { name: 'JPG', icon: '/static/images/jpg-icon.png' },
-            { name: 'ZIP', icon: '/static/images/zip-icon.png' },
-            { name: 'DOCX', icon: '/static/images/docx-icon.png' }
+            { name: 'PDF', icon: '/assets/PDF (2).png' },
+            { name: 'MP3', icon: '/assets/mp3.png' },
+            { name: 'MP4', icon: '/assets/mp4-file.png' },
+            { name: 'JPG', icon: '/assets/jpg-file.png' },
+            { name: 'ZIP', icon: '/assets/zip.png' },
+            { name: 'DOCX', icon: '/assets/docx-file.png' }
         ];
 
         // Game state

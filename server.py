@@ -219,6 +219,10 @@ def save_contact_form():
         return jsonify({'error': 'Server error while forwarding form data.'}), 500
     
 
+@app.route('/assets/<path:filename>')
+def custom_static(filename):
+    return send_from_directory('assets', filename)
+
 # Add this route to serve the contact form HTML if needed
 @app.route('/static/company/contact.html', methods=['GET'])
 def contact_page():
