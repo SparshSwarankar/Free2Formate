@@ -75,11 +75,13 @@ def ping():
     Lightweight health check endpoint for keep-alive pings.
     Used by GitHub Actions / uptime monitors.
     """
+    logger.info("Health ping received on /ping")
     return jsonify({
         "status": "ok",
         "message": "free2formate is alive",
         "time": time.time()
     }), 200
+
 
 
 @app.route('/api/formats', methods=['GET'])
