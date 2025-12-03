@@ -69,6 +69,19 @@ def index():
     """Serve the main page"""
     return app.send_static_file('index.html')
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    """
+    Lightweight health check endpoint for keep-alive pings.
+    Used by GitHub Actions / uptime monitors.
+    """
+    return jsonify({
+        "status": "ok",
+        "message": "free2formate is alive",
+        "time": time.time()
+    }), 200
+
+
 @app.route('/api/formats', methods=['GET'])
 def get_formats():
     """Return supported formats for each category"""
